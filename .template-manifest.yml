@@ -1,0 +1,34 @@
+# The template's own manifest.
+#
+# A clone inherits this file and is therefore BORN COMPLETE: every module is
+# listed at the current template_version. A downstream app that adopts only some
+# modules lists only those (see docs/modules/*.md, "Adopt into an existing app").
+#
+# An upgrade agent reads changelog entries newer than template_version, filtered
+# to the modules listed here, applies them in order, and bumps template_version.
+# See docs/changelog/README.md and docs/template-manifest.md.
+
+template_version: "0.1.0"
+
+# module name -> the template_version at which this app adopted it.
+modules:
+  shell: "0.1.0"
+  bridge: "0.1.0"
+  storage: "0.1.0"
+  recovery: "0.1.0"
+  account: "0.1.0"
+  updates: "0.1.0"
+  deep_links: "0.1.0"
+  packaging: "0.1.0"
+  helpers: "0.1.0"
+  agent_surface: "0.1.0"
+  mcp_bridge: "0.1.0"
+  help: "0.1.0"
+  feedback: "0.1.0"
+  number_fields: "0.1.0"
+  keys: "0.1.0"
+  at_rest: "0.1.0"
+  theme: "0.1.0"
+  testing: "0.1.0"
+  ci: "0.1.0"
+  agent-conventions: "0.1.0"

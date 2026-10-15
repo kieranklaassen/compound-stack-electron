@@ -1,0 +1,83 @@
+/* The tokens: every colour, size and time the page uses, stated once.
+   A component names a token and never a number. Each colour means one thing:
+   --accent is "this is the thing to press or the thing in hand", --danger is
+   "this cannot be undone or went wrong", --good is "this is done".
+
+   The dark scheme gives the same tokens other values. Write no second set of
+   rules for a dark page. */
+
+:root {
+  color-scheme: light;
+
+  --surface: #ffffff;
+  --surface-back: #f6f5f2;
+  --surface-sunk: #eeece7;
+  --line: #d9d6cf;
+  --ink: #1c1b19;
+  --ink-soft: #5d5a54;
+  --accent: #2f5fd0;
+  --accent-ink: #ffffff;
+  --accent-soft: #dfe7fb;
+  --danger: #b3261e;
+  --good: #1f7a45;
+  --shade: rgb(20 20 20 / 0.32);
+
+  --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --text: 13px;
+  --text-small: 12px;
+  --text-large: 17px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --row: 28px;
+  --radius: 6px;
+  --bar: 44px;
+  --dock: 260px;
+
+  --quick: 120ms;
+}
+
+:root[data-scheme='dark'] {
+  color-scheme: dark;
+  --surface: #232427;
+  --surface-back: #17181a;
+  --surface-sunk: #1d1e21;
+  --line: #3a3c41;
+  --ink: #ecebe8;
+  --ink-soft: #a3a19b;
+  --accent: #8fb0ff;
+  --accent-ink: #10131c;
+  --accent-soft: #2a3553;
+  --danger: #ff8a80;
+  --good: #7fd6a2;
+  --shade: rgb(0 0 0 / 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-scheme='light']) {
+    color-scheme: dark;
+    --surface: #232427;
+    --surface-back: #17181a;
+    --surface-sunk: #1d1e21;
+    --line: #3a3c41;
+    --ink: #ecebe8;
+    --ink-soft: #a3a19b;
+    --accent: #8fb0ff;
+    --accent-ink: #10131c;
+    --accent-soft: #2a3553;
+    --danger: #ff8a80;
+    --good: #7fd6a2;
+    --shade: rgb(0 0 0 / 0.5);
+  }
+}
+
+/* Less motion, where the person asked for it: nothing moves, everything still happens. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --quick: 0ms;
+  }
+}

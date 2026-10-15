@@ -1,0 +1,499 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--surface-back);
+  color: var(--ink);
+  font: var(--text) / 1.4 var(--font);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  cursor: default;
+  overflow: hidden;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--text-large);
+  font-weight: 600;
+}
+
+h2 {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: var(--bar) 1fr;
+  height: 100%;
+}
+
+/* ---- The title bar. Its groups keep their places: nothing in it moves when a state changes. ---- */
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 0 var(--space-3);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  -webkit-app-region: drag;
+}
+
+/* Room for the window's own buttons on a Mac. */
+.title-bar[data-mac] {
+  padding-left: 84px;
+}
+
+.title-bar button,
+.title-bar input {
+  -webkit-app-region: no-drag;
+}
+
+.title-name {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.title-file {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.title-edited {
+  width: 44px;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+}
+
+.title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.title-group.end {
+  margin-left: auto;
+}
+
+/* ---- The work: the preview and the inspector. ---- */
+
+.work {
+  display: grid;
+  grid-template-columns: 1fr var(--dock);
+  min-height: 0;
+}
+
+.preview {
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.poster {
+  display: grid;
+  place-items: center;
+  width: min(100%, 720px);
+  aspect-ratio: 16 / 10;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.poster-title {
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.inspector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  overflow: auto;
+}
+
+.note,
+.quiet-line {
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+}
+
+/* ---- Fields. ---- */
+
+.field {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.field.wide {
+  grid-template-columns: 1fr;
+}
+
+.field-label {
+  color: var(--ink-soft);
+}
+
+.field-input {
+  height: var(--row);
+  padding: 0 var(--space-2);
+  background: var(--surface-sunk);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+  user-select: text;
+  min-width: 0;
+}
+
+.field-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.field-input.number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A number that is not being typed in is dragged: the cursor says so. */
+.field-input[data-scrub]:not(:focus) {
+  cursor: ns-resize;
+  caret-color: transparent;
+}
+
+.field-input[data-scrubbing] {
+  border-color: var(--accent);
+}
+
+/* ---- Buttons. ---- */
+
+.button {
+  height: var(--row);
+  padding: 0 var(--space-3);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+  white-space: nowrap;
+  transition: background var(--quick);
+}
+
+.button:hover {
+  background: var(--surface-sunk);
+}
+
+.button:focus-visible,
+.switch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.button.quiet {
+  border-color: transparent;
+  background: transparent;
+}
+
+.button.quiet:hover {
+  background: var(--surface-sunk);
+}
+
+.button.main {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.button.danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+/* Off is shown, never hidden: the control is where it always is, and its card says why. */
+.button[aria-disabled='true'],
+.switch[aria-disabled='true'] {
+  opacity: 0.45;
+}
+
+.button[aria-disabled='true']:hover {
+  background: var(--surface);
+}
+
+.button.quiet[aria-disabled='true']:hover {
+  background: transparent;
+}
+
+/* Show me rings a control. */
+[data-ringed] {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.segments {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0;
+  height: var(--row);
+  background: none;
+  border: 0;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+
+.switch-track {
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+  padding: 2px;
+  background: var(--line);
+  border-radius: 9px;
+  transition: background var(--quick);
+}
+
+.switch-thumb {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: var(--surface);
+  border-radius: 50%;
+  transition: transform var(--quick);
+}
+
+.switch[aria-checked='true'] .switch-track {
+  background: var(--accent);
+}
+
+.switch[aria-checked='true'] .switch-thumb {
+  transform: translateX(12px);
+}
+
+/* ---- What a press answered, where the press was. The line keeps its room. ---- */
+
+.said {
+  display: inline-block;
+  min-width: 96px;
+  min-height: 1lh;
+  padding-left: var(--space-2);
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+  white-space: nowrap;
+}
+
+.status-line {
+  min-height: 2lh;
+  color: var(--ink-soft);
+}
+
+[data-tone='good'] {
+  color: var(--good);
+}
+
+[data-tone='bad'] {
+  color: var(--danger);
+}
+
+.ask-first {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ask-first-question {
+  color: var(--ink-soft);
+}
+
+/* ---- Sheets. ---- */
+
+.sheet-back {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--shade);
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: min(520px, calc(100% - 2 * var(--space-5)));
+  max-height: calc(100% - 2 * var(--space-5));
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 2);
+  overflow: auto;
+}
+
+.sheet.narrow {
+  width: min(440px, calc(100% - 2 * var(--space-5)));
+  gap: var(--space-3);
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--row);
+}
+
+.code {
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: 600 var(--text-large) var(--font-mono);
+  letter-spacing: 0.08em;
+  user-select: text;
+}
+
+/* ---- The help card: one for the whole window. ---- */
+
+.help-card {
+  position: fixed;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: var(--radius);
+  font-size: var(--text-small);
+  pointer-events: none;
+}
+
+.help-card[data-level='card'] {
+  width: 320px;
+  padding: var(--space-3);
+  gap: var(--space-2);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px var(--shade);
+}
+
+.help-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.help-name {
+  font-weight: 600;
+}
+
+.help-key {
+  font: inherit;
+  opacity: 0.75;
+}
+
+.help-says {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.help-card[data-level='card'] .help-says {
+  color: var(--danger);
+  opacity: 1;
+}
+
+.help-label {
+  font-weight: 600;
+}
+
+.help-hint {
+  opacity: 0.65;
+}
+
+.help-picture {
+  width: 100%;
+  height: auto;
+}
+
+/* In Help mode the pointer says that it asks. */
+.app[data-help-mode] [data-action] {
+  cursor: help;
+}
+
+/* ---- Notices: over the page, at its foot. ---- */
+
+.notices {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-4);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-3);
+  min-height: calc(var(--row) + 2 * var(--space-1));
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px var(--shade);
+  pointer-events: auto;
+}

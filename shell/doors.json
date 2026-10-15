@@ -1,0 +1,8 @@
+{
+  "app": ["about", "unsaved", "openOutside"],
+  "account": ["state", "start", "openAgain", "cancel", "signOut"],
+  "documents": ["open", "save"],
+  "recovery": ["keep", "take", "drop"],
+  "settings": ["read", "set"],
+  "updates": ["state", "check", "download", "restart"]
+}
