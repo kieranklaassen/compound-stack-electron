@@ -150,3 +150,7 @@ for its modules, and opens a PR. Never a direct push.
 
 Read [AGENTS.md](AGENTS.md) first, then the module doc for the area you are
 changing. [CONCEPTS.md](CONCEPTS.md) has the vocabulary.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "The Electron starter that pairs with compound-stack-rails: a locked-down shell, a typed bridge, a React page, and the UX habits worth keeping.",
+  "license": "MIT",
   "type": "module",
   "main": "shell/main.mjs",
   "scripts": {
